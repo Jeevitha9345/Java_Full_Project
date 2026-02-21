@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MCQ Test</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.card {
+    width: 100%;
+    height: 80px;
+    background: #f1f1f1;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    background: #dce6ff;
+}
+
+.question {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.option {
+    margin: 8px 0;
+}
+
+button {
+    padding: 10px;
+    margin-top: 20px;
+    width: 100%;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>MCQ Section</h2>
+
+    <!-- Topic Selection -->
+    <div id="topicSection">
+        <div class="card" onclick="startQuiz('Java-Full-Stack')">Java Full Stack MCQ</div>
+        <div class="card" onclick="startQuiz('ML')">AI & ML MCQ</div>
+    </div>
+
+    <!-- Quiz Area -->
+    <div id="quizArea" style="display:none;">
+        <div id="questionText" class="question"></div>
+        <div id="options"></div>
+        <button id="submitBtn" onclick="submitAnswer()">Submit</button>
+        <button id="nextBtn" style="display:none;" onclick="nextQuestion()">Next Question</button>
+        <h3 id="result"></h3>
+    </div>
+</div>
+
+<script>
+let questions = [];
+let currentIndex = 0;
+let currentQuestionId = null;
+let score = 0; // 🔥 Track score
+
+// 🔥 Start Quiz
+async function startQuiz(topic) {
+    document.getElementById("topicSection").style.display = "none";
+    document.getElementById("quizArea").style.display = "block";
+    document.getElementById("result").innerHTML = "";
+    score = 0; // Reset score
+
+    try {
+        const response = await fetch(`http://localhost:8080/questions/${topic}/quiz`);
+        questions = await response.json();
+
+        if (questions.length === 0) {
+            document.getElementById("quizArea").innerHTML = "No questions available for this topic.";
+            return;
+        }
+
+        currentIndex = 0;
+        showQuestion();
+    } catch (error) {
+        document.getElementById("quizArea").innerHTML = "Server not reachable.";
+        console.error(error);
+    }
+}
+
+// 🔥 Display current question
+function showQuestion() {
+    const q = questions[currentIndex];
+    currentQuestionId = q.id;
+
+    document.getElementById("questionText").innerText = `Q${currentIndex + 1}. ${q.question}`;
+
+    document.getElementById("options").innerHTML = `
+        <div class="option"><input type="radio" name="answer" value="A"> ${q.optionA}</div>
+        <div class="option"><input type="radio" name="answer" value="B"> ${q.optionB}</div>
+        <div class="option"><input type="radio" name="answer" value="C"> ${q.optionC}</div>
+        <div class="option"><input type="radio" name="answer" value="D"> ${q.optionD}</div>
+    `;
+
+    document.getElementById("submitBtn").style.display = "inline-block";
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("result").innerHTML = "";
+}
+
+// 🔥 Submit answer
+async function submitAnswer() {
+    const selected = document.querySelector("input[name='answer']:checked");
+    if (!selected) {
+        alert("Please select an option!");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/questions/submit?id=${currentQuestionId}&userAns=${selected.value}`, { method: "POST" });
+        const result = await response.json();
+
+        // Show correct/wrong message
+        document.getElementById("result").innerText = result.message;
+
+        if (result.correct) score++; // Increment score if correct
+
+        document.getElementById("submitBtn").style.display = "none";
+        document.getElementById("nextBtn").style.display = "inline-block";
+
+    } catch (error) {
+        alert("Error submitting answer.");
+        console.error(error);
+    }
+}
+
+// 🔥 Show next question or final score
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex >= questions.length) {
+        document.getElementById("quizArea").innerHTML = `
+            <h3>Quiz Completed! ✅</h3>
+            <h3>Your Score: ${score} / ${questions.length}</h3>
+            <button onclick="location.reload()">Take Another Quiz</button>
+        `;
+    } else {
+        showQuestion();
+    }
+}
+</script>
+
+</body>
+</html>

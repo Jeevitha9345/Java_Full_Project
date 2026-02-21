@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 70px 1fr;
+    height: 100vh;
+}
+
+/* HEADER */
+header {
+    grid-column: 1 / 3;
+    background: #1e1e2f;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+header h2 {
+    font-weight: 500;
+}
+
+.header-right {
+    font-size: 14px;
+}
+
+/* SIDEBAR */
+aside {
+    background: #2b2b3c;
+    padding-top: 20px;
+}
+
+aside ul {
+    list-style: none;
+}
+
+aside ul li {
+    padding: 15px 20px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+aside ul li:hover {
+    background: #40405a;
+}
+
+aside ul li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+/* MAIN */
+main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* CARDS */
+.card {
+    width: 300px;
+    height: 120px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: #e6f0ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- HEADER -->
+    <header>
+        <h2>Interview Practice Portal</h2>
+        <div class="header-right">
+            Welcome, User 👋
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside>
+        <ul>
+            <li><a href="profile.html">👤 Profile</a></li>
+            <li><a href="index.html">🚪 Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+        <div class="card" onclick="toggleRoadmap()">
+            📚 View Roadmap
+        </div>
+
+        <div id="roadmapOptions" style="display:none; width:100%; text-align:center;">
+
+            <div class="card" onclick="goJava()">
+                Java Full Stack Roadmap
+            </div>
+
+            <div class="card" onclick="goAIML()">
+                AI & ML Roadmap
+            </div>
+
+        </div>
+
+        <div class="card" onclick="goMCQ()">
+            📝 Start MCQ Test
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+function toggleRoadmap() {
+    const section = document.getElementById("roadmapOptions");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+}
+
+function goJava() {
+    window.location.href = "java-roadmap.html";
+}
+
+function goAIML() {
+    window.location.href = "aiml-roadmap.html";
+}
+
+function goMCQ() {
+    window.location.href = "mcq-test.html";
+}
+
+</script>
+
+</body>
+</html>
