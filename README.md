@@ -122,8 +122,3 @@ Password Encryption
 Quiz Timer
 React Frontend
 Deployment (Render / Railway / AWS)
-
-👨‍💻 Author
-Jeevitha S
-IT Student | Java Full Stack Developer
-Interested in Web Development & DSA
