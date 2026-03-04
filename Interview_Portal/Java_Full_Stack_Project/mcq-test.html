@@ -69,88 +69,120 @@ button:hover {
 
     <!-- Topic Selection -->
     <div id="topicSection">
-        <div class="card" onclick="startQuiz('Java-Full-Stack')">Java Full Stack MCQ</div>
-        <div class="card" onclick="startQuiz('ML')">AI & ML MCQ</div>
+        <div class="card" onclick="startQuiz('Java Full Stack')">
+            Java Full Stack MCQ
+        </div>
+
+        <div class="card" onclick="startQuiz('Machine Learning')">
+            AI & ML MCQ
+        </div>
     </div>
 
     <!-- Quiz Area -->
     <div id="quizArea" style="display:none;">
         <div id="questionText" class="question"></div>
         <div id="options"></div>
+
         <button id="submitBtn" onclick="submitAnswer()">Submit</button>
         <button id="nextBtn" style="display:none;" onclick="nextQuestion()">Next Question</button>
+
         <h3 id="result"></h3>
     </div>
 </div>
 
 <script>
+
 let questions = [];
 let currentIndex = 0;
 let currentQuestionId = null;
-let score = 0; // 🔥 Track score
+let score = 0;
 
-// 🔥 Start Quiz
+// ✅ Start Quiz
 async function startQuiz(topic) {
+
     document.getElementById("topicSection").style.display = "none";
     document.getElementById("quizArea").style.display = "block";
     document.getElementById("result").innerHTML = "";
-    score = 0; // Reset score
+    score = 0;
 
     try {
-        const response = await fetch(`http://localhost:8080/questions/${topic}/quiz`);
+
+        const response = await fetch(
+            `http://localhost:8080/questions/${encodeURIComponent(topic)}/quiz`
+        );
+
         questions = await response.json();
 
-        if (questions.length === 0) {
-            document.getElementById("quizArea").innerHTML = "No questions available for this topic.";
+        if (!questions || questions.length === 0) {
+            document.getElementById("quizArea").innerHTML =
+                "<h3>No questions available for this topic.</h3>";
             return;
         }
 
         currentIndex = 0;
         showQuestion();
+
     } catch (error) {
-        document.getElementById("quizArea").innerHTML = "Server not reachable.";
+        document.getElementById("quizArea").innerHTML =
+            "<h3>Server not reachable.</h3>";
         console.error(error);
     }
 }
 
-// 🔥 Display current question
+// ✅ Show Question
 function showQuestion() {
+
     const q = questions[currentIndex];
     currentQuestionId = q.id;
 
-    document.getElementById("questionText").innerText = `Q${currentIndex + 1}. ${q.question}`;
+    document.getElementById("questionText").innerText =
+        `Q${currentIndex + 1}. ${q.question}`;
 
     document.getElementById("options").innerHTML = `
-        <div class="option"><input type="radio" name="answer" value="A"> ${q.optionA}</div>
-        <div class="option"><input type="radio" name="answer" value="B"> ${q.optionB}</div>
-        <div class="option"><input type="radio" name="answer" value="C"> ${q.optionC}</div>
-        <div class="option"><input type="radio" name="answer" value="D"> ${q.optionD}</div>
+        <div class="option">
+            <input type="radio" name="answer" value="A"> ${q.optionA}
+        </div>
+        <div class="option">
+            <input type="radio" name="answer" value="B"> ${q.optionB}
+        </div>
+        <div class="option">
+            <input type="radio" name="answer" value="C"> ${q.optionC}
+        </div>
+        <div class="option">
+            <input type="radio" name="answer" value="D"> ${q.optionD}
+        </div>
     `;
 
-    document.getElementById("submitBtn").style.display = "inline-block";
+    document.getElementById("submitBtn").style.display = "block";
     document.getElementById("nextBtn").style.display = "none";
     document.getElementById("result").innerHTML = "";
 }
 
-// 🔥 Submit answer
+// ✅ Submit Answer
 async function submitAnswer() {
+
     const selected = document.querySelector("input[name='answer']:checked");
+
     if (!selected) {
         alert("Please select an option!");
         return;
     }
 
     try {
-        const response = await fetch(`http://localhost:8080/questions/submit?id=${currentQuestionId}&userAns=${selected.value}`, { method: "POST" });
+
+        const response = await fetch(
+            `http://localhost:8080/questions/submit?id=${currentQuestionId}&userAns=${selected.value}`,
+            { method: "POST" }
+        );
+
         const result = await response.json();
 
-        // Show correct/wrong message
         document.getElementById("result").innerText = result.message;
 
-        if (result.correct) score++; // Increment score if correct
+        if (result.correct) score++;
 
         document.getElementById("submitBtn").style.display = "none";
-        document.getElementById("nextBtn").style.display = "inline-block";
+        document.getElementById("nextBtn").style.display = "block";
 
     } catch (error) {
         alert("Error submitting answer.");
@@ -158,19 +190,24 @@ async function submitAnswer() {
     }
 }
 
-// 🔥 Show next question or final score
+// ✅ Next Question
 function nextQuestion() {
+
     currentIndex++;
+
     if (currentIndex >= questions.length) {
+
         document.getElementById("quizArea").innerHTML = `
             <h3>Quiz Completed! ✅</h3>
             <h3>Your Score: ${score} / ${questions.length}</h3>
             <button onclick="location.reload()">Take Another Quiz</button>
         `;
+
     } else {
         showQuestion();
     }
 }
+
 </script>
 
 </body>

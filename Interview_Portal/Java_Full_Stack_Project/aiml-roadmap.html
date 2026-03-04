@@ -1,49 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI & ML Roadmap</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
-body {
-    font-family: Arial;
-    margin: 40px;
-    background: #f5f5f5;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
-.container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px gray;
+body{
+    background:#f4f6f9;
+    padding:40px;
 }
 
-h1 {
-    text-align: center;
+.container{
+    max-width:1000px;
+    margin:auto;
 }
 
-h2 {
-    margin-top: 30px;
-    color: darkgreen;
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
 }
 
-ul {
-    line-height: 1.8;
+.header h1{
+    font-size:22px;
+    font-weight:600;
 }
 
-.section {
-    margin-bottom: 25px;
+.header button{
+    padding:8px 18px;
+    background:#065f46;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
 }
 
-button {
-    padding: 10px 20px;
-    background: black;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.header button:hover{
+    background:#047857;
 }
 
-button:hover {
-    background: darkgreen;
+.section{
+    background:white;
+    padding:25px;
+    border-radius:8px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    border:1px solid #e5e7eb;
+}
+
+.section h2{
+    font-size:16px;
+    margin-bottom:15px;
+    color:#065f46;
+}
+
+.topic{
+    margin-bottom:8px;
+}
+
+.topic input{
+    margin-right:10px;
+}
+
+.progress-container{
+    margin-top:30px;
+}
+
+.progress-bar{
+    background:#e5e7eb;
+    height:15px;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:#10b981;
+    width:0%;
+    transition:0.3s ease;
+}
+
+.percent-text{
+    margin-top:10px;
+    font-size:14px;
+    color:#374151;
 }
 </style>
 </head>
@@ -52,112 +103,118 @@ button:hover {
 
 <div class="container">
 
-<h1>AI & Machine Learning Roadmap</h1>
+<div class="header">
+    <h1>AI & Machine Learning Roadmap</h1>
+    <button onclick="goBack()">Back</button>
+</div>
 
+<!-- PROGRAMMING -->
 <div class="section">
 <h2>1. Programming Foundation</h2>
-<ul>
-<li>Python Basics</li>
-<li>Data Types & Control Statements</li>
-<li>Functions</li>
-<li>OOP in Python</li>
-<li>NumPy</li>
-<li>Pandas</li>
-<li>Matplotlib</li>
-</ul>
+<div class="topic"><input type="checkbox" class="check"> Python Basics</div>
+<div class="topic"><input type="checkbox" class="check"> NumPy & Pandas</div>
+<div class="topic"><input type="checkbox" class="check"> Matplotlib</div>
 </div>
 
+<!-- MATH -->
 <div class="section">
-<h2>2. Mathematics for ML</h2>
-<ul>
-<li>Linear Algebra (Vectors, Matrices)</li>
-<li>Probability</li>
-<li>Statistics</li>
-<li>Calculus Basics</li>
-<li>Gradient Descent</li>
-</ul>
+<h2>2. Mathematics</h2>
+<div class="topic"><input type="checkbox" class="check"> Linear Algebra</div>
+<div class="topic"><input type="checkbox" class="check"> Probability</div>
+<div class="topic"><input type="checkbox" class="check"> Statistics</div>
+<div class="topic"><input type="checkbox" class="check"> Gradient Descent</div>
 </div>
 
+<!-- ML BASICS -->
 <div class="section">
-<h2>3. Machine Learning Basics</h2>
-<ul>
-<li>Supervised Learning</li>
-<li>Unsupervised Learning</li>
-<li>Regression Algorithms</li>
-<li>Classification Algorithms</li>
-<li>KNN</li>
-<li>Decision Trees</li>
-<li>Random Forest</li>
-<li>Support Vector Machines</li>
-<li>K-Means Clustering</li>
-</ul>
+<h2>3. Machine Learning</h2>
+<div class="topic"><input type="checkbox" class="check"> Regression</div>
+<div class="topic"><input type="checkbox" class="check"> Classification</div>
+<div class="topic"><input type="checkbox" class="check"> Decision Trees</div>
+<div class="topic"><input type="checkbox" class="check"> SVM</div>
+<div class="topic"><input type="checkbox" class="check"> K-Means</div>
 </div>
 
+<!-- EVALUATION -->
 <div class="section">
 <h2>4. Model Evaluation</h2>
-<ul>
-<li>Train/Test Split</li>
-<li>Cross Validation</li>
-<li>Confusion Matrix</li>
-<li>Precision & Recall</li>
-<li>F1 Score</li>
-<li>ROC Curve</li>
-</ul>
+<div class="topic"><input type="checkbox" class="check"> Cross Validation</div>
+<div class="topic"><input type="checkbox" class="check"> Confusion Matrix</div>
+<div class="topic"><input type="checkbox" class="check"> F1 Score</div>
+<div class="topic"><input type="checkbox" class="check"> ROC Curve</div>
 </div>
 
+<!-- DEEP LEARNING -->
 <div class="section">
 <h2>5. Deep Learning</h2>
-<ul>
-<li>Neural Networks</li>
-<li>Activation Functions</li>
-<li>Backpropagation</li>
-<li>TensorFlow / PyTorch</li>
-<li>CNN</li>
-<li>RNN</li>
-<li>LSTM</li>
-</ul>
+<div class="topic"><input type="checkbox" class="check"> Neural Networks</div>
+<div class="topic"><input type="checkbox" class="check"> CNN</div>
+<div class="topic"><input type="checkbox" class="check"> RNN / LSTM</div>
+<div class="topic"><input type="checkbox" class="check"> TensorFlow / PyTorch</div>
 </div>
 
+<!-- PROJECTS -->
 <div class="section">
-<h2>6. Specializations</h2>
-<ul>
-<li>Computer Vision</li>
-<li>Natural Language Processing (NLP)</li>
-<li>Reinforcement Learning</li>
-<li>Generative AI</li>
-</ul>
+<h2>6. Projects</h2>
+<div class="topic"><input type="checkbox" class="check"> Spam Classifier</div>
+<div class="topic"><input type="checkbox" class="check"> House Price Prediction</div>
+<div class="topic"><input type="checkbox" class="check"> Sentiment Analysis</div>
+<div class="topic"><input type="checkbox" class="check"> Recommendation System</div>
 </div>
 
+<!-- DEPLOYMENT -->
 <div class="section">
-<h2>7. Projects (Must Do)</h2>
-<ul>
-<li>Spam Email Classifier</li>
-<li>House Price Prediction</li>
-<li>Image Classification</li>
-<li>Sentiment Analysis</li>
-<li>Recommendation System</li>
-</ul>
+<h2>7. Deployment</h2>
+<div class="topic"><input type="checkbox" class="check"> Flask / FastAPI</div>
+<div class="topic"><input type="checkbox" class="check"> Model Serialization</div>
+<div class="topic"><input type="checkbox" class="check"> Cloud Deployment</div>
 </div>
 
-<div class="section">
-<h2>8. Deployment</h2>
-<ul>
-<li>Flask / FastAPI</li>
-<li>Model Serialization (Pickle, Joblib)</li>
-<li>Deploy on Cloud</li>
-<li>API Integration</li>
-</ul>
+<!-- PROGRESS -->
+<div class="progress-container">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="percent-text" id="percentText">0% Completed</div>
 </div>
-
-<br><br>
-<button onclick="goBack()">Back to Dashboard</button>
 
 </div>
 
 <script>
-function goBack(){
-    window.location.href = "dashboard.html";
+
+const checkboxes = document.querySelectorAll(".check");
+const progressFill = document.getElementById("progressFill");
+const percentText = document.getElementById("percentText");
+
+const STORAGE_KEY = "aimlRoadmapProgress";
+
+window.onload = function(){
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    checkboxes.forEach((cb,i)=>cb.checked = saved[i] || false);
+    updateProgress();
+};
+
+checkboxes.forEach(cb=>{
+    cb.addEventListener("change",()=>{
+        const states = [];
+        checkboxes.forEach(c=>states.push(c.checked));
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(states));
+        updateProgress();
+    });
+});
+
+function updateProgress(){
+    const total = checkboxes.length;
+    const done = [...checkboxes].filter(c=>c.checked).length;
+    const percent = Math.round((done/total)*100);
+    progressFill.style.width = percent+"%";
+    percentText.innerText = percent+"% Completed";
 }
+
+function goBack(){
+    window.location.href="dashboard.html";
+}
+
 </script>
 
 </body>

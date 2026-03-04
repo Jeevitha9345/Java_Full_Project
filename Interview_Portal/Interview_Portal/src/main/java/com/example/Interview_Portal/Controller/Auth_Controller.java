@@ -16,6 +16,7 @@ public class Auth_Controller {
     @Autowired
     private Auth_Service authService;
 
+    // REGISTER
     @PostMapping("/register")
     public Map<String, Object> register(@RequestBody User_Entity user) {
 
@@ -30,15 +31,21 @@ public class Auth_Controller {
             response.put("success", true);
             response.put("message", "Registration successful!");
         }
+
         return response;
     }
 
+    // LOGIN  🔥 FIXED
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestParam String email,
-                                     @RequestParam String password) {
+    public Map<String, Object> login(@RequestBody Map<String, String> request) {
+
+        String email = request.get("email");
+        String password = request.get("password");
 
         Map<String, Object> response = new HashMap<>();
+
         String result = authService.login(email, password);
+
         if (result.equals("User not found")) {
             response.put("success", false);
             response.put("message", "User not found!");
@@ -48,9 +55,18 @@ public class Auth_Controller {
             response.put("message", "Incorrect password!");
         }
         else {
+            User_Entity user = authService.getUserByEmail(email);
+
             response.put("success", true);
             response.put("message", "Login successful!");
+            response.put("name", user.getName());
+            response.put("email", user.getEmail());
+            response.put("role", user.getRole());
+
+            // Optional simple token
+            response.put("token", "dummy-token-123");
         }
+
         return response;
     }
 }

@@ -1,61 +1,231 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Interview Practice Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#111827,#1f2937,#374151);
+}
+
+.card{
+    width:420px;
+    padding:45px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.15);
+    box-shadow:0 25px 50px rgba(0,0,0,0.4);
+    animation:fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+h2{
+    text-align:center;
+    margin-bottom:35px;
+    font-weight:600;
+    color:white;
+}
+
+.input-group{
+    margin-bottom:22px;
+}
+
+label{
+    font-size:13px;
+    color:#d1d5db;
+    display:block;
+    margin-bottom:6px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.1);
+    color:white;
+    font-size:14px;
+}
+
+input::placeholder{
+    color:#9ca3af;
+}
+
+input:focus{
+    outline:none;
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px rgba(99,102,241,0.3);
+}
+
+.password-wrapper{
+    position:relative;
+}
+
+.toggle{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:12px;
+    color:#cbd5e1;
+}
+
+button{
+    width:100%;
+    padding:13px;
+    background:linear-gradient(90deg,#6366f1,#8b5cf6);
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(99,102,241,0.4);
+}
+
+.message{
+    margin-top:15px;
+    text-align:center;
+    font-size:13px;
+}
+
+.error{color:#f87171}
+.success{color:#4ade80}
+
+.footer{
+    margin-top:25px;
+    text-align:center;
+    font-size:13px;
+    color:#d1d5db;
+}
+
+.footer a{
+    color:#a5b4fc;
+    text-decoration:none;
+}
+</style>
 </head>
-<body style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f5f5f5;">
 
-    <div style="padding:25px; width:300px; background:white; box-shadow:0 4px 12px gray;align-items: center; border-radius:10px;">
-        
-        <h2 style="text-align:center;">Register</h2>
+<body>
 
-        <form id="registerForm">
-            
-            <center><label  >Name:</label>
-            <input type="text" id="name" required><br><br>
+<div class="card">
+<h2>Create Account</h2>
 
-            <label>Email:</label>
-            <input type="email" id="email" required><br><br>
+<form id="registerForm">
 
-            <label>Password:</label>
-            <input type="password" id="password" required><br><br>
+<div class="input-group">
+<label>Full Name</label>
+<input type="text"
+       id="name"
+       name="name"
+       placeholder="John Doe"
+       autocomplete="name"
+       required>
+</div>
 
-            <button type="submit">Register</button>
-</center>
-        </form>
-    </div>
+<div class="input-group">
+<label>Email</label>
+<input type="email"
+       id="email"
+       name="email"
+       placeholder="you@example.com"
+       autocomplete="email"
+       required>
+</div>
+
+<div class="input-group password-wrapper">
+<label>Password</label>
+<input type="password"
+       id="pass"
+       name="password"
+       placeholder="Minimum 6 characters"
+       autocomplete="new-password"
+       required>
+<span class="toggle" onclick="togglePassword()">Show</span>
+</div>
+
+<button type="submit">Create Account</button>
+
+<div class="message" id="message"></div>
+
+<div class="footer">
+Already have an account? <a href="login.html">Login</a>
+</div>
+
+</form>
+</div>
 
 <script>
-document.getElementById("registerForm").addEventListener("submit", async function(e) {
+function togglePassword(){
+    const pass = document.getElementById("pass");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+
+document.getElementById("registerForm").addEventListener("submit", async function(e){
     e.preventDefault();
 
+    const msg = document.getElementById("message");
+    msg.innerHTML = "";
+
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("pass");
+
     const userData = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        password: passwordInput.value.trim()
     };
 
-    try {
-        const response = await fetch("http://localhost:8080/auth/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
+    // Basic validation
+    if(userData.name.length < 3){
+        msg.innerHTML = "<span class='error'>Name must be at least 3 characters</span>";
+        return;
+    }
+
+    if(userData.password.length < 6){
+        msg.innerHTML = "<span class='error'>Password must be at least 6 characters</span>";
+        return;
+    }
+
+    try{
+        const res = await fetch("http://localhost:8080/auth/register",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(userData)
         });
 
-        if (response.ok) {
-            alert("Registration Successful!");
-            
-            // 🔥 Redirect to dashboard
-            window.location.href = "dashboard.html";
-            
-        } else {
-            alert("Registration Failed");
+        const data = await res.json();
+
+        if(res.ok){
+            msg.innerHTML = "<span class='success'>Account created successfully</span>";
+            setTimeout(()=>window.location.href="login.html",1200);
+        }else{
+            msg.innerHTML = "<span class='error'>"+(data.message || "Registration failed")+"</span>";
         }
 
-    } catch (error) {
-        alert("Server not connected");
+    }catch{
+        msg.innerHTML = "<span class='error'>Server not reachable</span>";
     }
 });
 </script>

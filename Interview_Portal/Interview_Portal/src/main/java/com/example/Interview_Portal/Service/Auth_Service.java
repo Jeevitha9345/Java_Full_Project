@@ -9,22 +9,42 @@ import java.util.Optional;
 
 @Service
 public class Auth_Service {
+
     @Autowired
-    private User_Repo user_repo;
-    public String register(User_Entity user){
-        Optional<User_Entity> exist=user_repo.findByEmail((user.getEmail()));
-        if(exist.isPresent()){
+    private User_Repo userRepository;
+
+    // REGISTER
+    public String register(User_Entity user) {
+
+        Optional<User_Entity> existing =
+                userRepository.findByEmail(user.getEmail());
+
+        if (existing.isPresent()) {
             return "User already exists";
         }
-        user_repo.save(user);
-        return "User registered successfully";
+
+        userRepository.save(user);
+        return "Success";
     }
-    public String login(String email,String password){
-        Optional<User_Entity> user=user_repo.findByEmail(email);
-        if(user.isEmpty()) return "User not found";
-        if(!user.get().getPassword().equals(password)){
+
+    // LOGIN
+    public String login(String email, String password) {
+
+        Optional<User_Entity> user =
+                userRepository.findByEmail(email);
+
+        if (user.isEmpty()) {
+            return "User not found";
+        }
+
+        if (!user.get().getPassword().equals(password)) {
             return "Invalid password";
         }
-        return "Login successfully!";
+
+        return "Success";
+    }
+
+    public User_Entity getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

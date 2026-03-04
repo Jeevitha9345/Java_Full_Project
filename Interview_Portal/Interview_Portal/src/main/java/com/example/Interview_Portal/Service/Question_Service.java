@@ -26,9 +26,21 @@ public class Question_Service {
     // 🔥 Check Answer
     public boolean checkAns(Long id, String userAns) {
 
-        Question_Entity question = questionRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+        Question_Entity question = questionRepo.findById(id).orElse(null);
 
-        return question.getCorrectOption().equalsIgnoreCase(userAns);
+        if (question == null) return false;
+
+        String correct = question.getCorrectOption();
+
+        String selectedText = "";
+
+        switch (userAns) {
+            case "A": selectedText = question.getOptionA(); break;
+            case "B": selectedText = question.getOptionB(); break;
+            case "C": selectedText = question.getOptionC(); break;
+            case "D": selectedText = question.getOptionD(); break;
+        }
+
+        return correct.equalsIgnoreCase(selectedText);
     }
 }
