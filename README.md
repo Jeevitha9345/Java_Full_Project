@@ -115,6 +115,7 @@ Open index.html
 Select topic
 Attempt quiz
 View final score 🎉
+Updated UI and changed background for better experience and improvements
 
 🎯 Future Improvements
 JWT Authentication
